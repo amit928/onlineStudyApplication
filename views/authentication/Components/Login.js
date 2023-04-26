@@ -56,7 +56,7 @@ export default class Login extends Component {
                                 />
                             </View>
 
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('dashboard')} style={{ width: "100%", backgroundColor: "#00aae5", paddingVertical: 15, borderRadius: 12, display: "flex", justifyContent: "center" }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('home')} style={{ width: "100%", backgroundColor: "#00aae5", paddingVertical: 15, borderRadius: 12, display: "flex", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 18, fontWeight: "800", fontFamily: "monospace", color: "#fff", textAlign: "center", letterSpacing: 1 }}>LOGIN</Text>
                             </TouchableOpacity>
                         </View>
