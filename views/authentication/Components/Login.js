@@ -3,12 +3,16 @@ import React, { Component } from 'react';
 import { HEIGHT, WIDTH } from '../../common/Constants';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { connect } from 'react-redux';
+import { onStudentLogin } from '../action';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            mobileNo: "",
+            password: ""
         }
     }
 
@@ -25,6 +29,19 @@ export default class Login extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
+    on_StudentLogin = () => {
+        const { mobileNo, password } = this.state
+        if (mobileNo && password) {
+            this.props.onStudentLogin({
+                "mobileno": mobileNo,
+                "password": password
+            })
+        }
+        else {
+            alert("Please Fill All The Input Fields")
+        }
+    }
+
     render() {
         return (
             <ScrollView style={{ height: HEIGHT }}>
@@ -37,11 +54,11 @@ export default class Login extends Component {
                             <Text style={{ fontSize: 30, color: "#f9a25d", fontWeight: "900", textAlign: "center", fontFamily: "monospace" }}>LEARNING EDGE</Text>
                             <Text style={{ fontSize: 20, color: "#fff", fontWeight: "600", textAlign: "center", marginBottom: 30 }}>Login Your Account</Text>
                             <View style={{ width: "100%", padding: 5, borderRadius: 7, borderRadius: 12, backgroundColor: "transparent", paddingHorizontal: 20, borderColor: "#9bc8fa", borderWidth: 0.8, display: "flex", flexDirection: "row", alignItems: "center", }}>
-                                <Entypo name="user" size={22} color="#fff" />
+                                <Entypo name="phone" size={22} color="#fff" />
                                 <TextInput
-                                    placeholder='Username'
+                                    placeholder='Mobile No'
                                     placeholderTextColor={'#fff'}
-
+                                    onChangeText={(text) => this.setState({ mobileNo: text })}
                                     style={{ width: "90%", alignSelf: "center", padding: 8, color: "#fff", fontSize: 17, textAlign: "center", fontWeight: "500" }}
                                 />
                             </View>
@@ -52,11 +69,14 @@ export default class Login extends Component {
                                     placeholder='Password'
                                     placeholderTextColor={'#fff'}
                                     secureTextEntry
+                                    onChangeText={(text) => this.setState({ password: text })}
                                     style={{ width: "90%", alignSelf: "center", padding: 8, color: "#fff", fontSize: 17, textAlign: "center", fontWeight: "500" }}
                                 />
                             </View>
 
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('home')} style={{ width: "100%", backgroundColor: "#00aae5", paddingVertical: 15, borderRadius: 12, display: "flex", justifyContent: "center" }}>
+                            <TouchableOpacity style={{ width: "100%", backgroundColor: "#00aae5", paddingVertical: 15, borderRadius: 12, display: "flex", justifyContent: "center" }} onPress={()=>{
+                                this.on_StudentLogin()
+                            }}>
                                 <Text style={{ fontSize: 18, fontWeight: "800", fontFamily: "monospace", color: "#fff", textAlign: "center", letterSpacing: 1 }}>LOGIN</Text>
                             </TouchableOpacity>
                         </View>
@@ -75,3 +95,17 @@ export default class Login extends Component {
         )
     }
 }
+
+
+export const mapStateToProps = (store) => {
+    return {
+    }
+}
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        onStudentLogin: (body) => dispatch(onStudentLogin(body)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
